@@ -28,7 +28,7 @@ THE SOFTWARE. **/
 
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:rayworld/ray_world_game.dart';
+import 'ray_world_game.dart';
 import 'helpers/direction.dart';
 import 'helpers/joypad.dart';
 
@@ -60,6 +60,6 @@ class MainGameState extends State<MainGamePage> {
   }
 
   void onJoypadDirectionChanged(Direction direction) {
-    // TODO 2
+    game.onJoypadDirectionChanged(direction);
   }
 }
