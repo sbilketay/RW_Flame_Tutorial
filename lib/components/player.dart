@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
-import 'helpers/direction.dart';
+import '../helpers/direction.dart';
 
 class Player extends SpriteAnimationComponent with HasGameRef {
   Player() : super(size: Vector2.all(50.0));
