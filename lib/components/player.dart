@@ -3,6 +3,7 @@ import 'package:flame/geometry.dart';
 import 'package:flame/sprite.dart';
 import '../helpers/direction.dart';
 import 'world_collidable.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Player extends SpriteAnimationComponent
     with HasGameRef, Hitbox, Collidable {
@@ -14,6 +15,7 @@ class Player extends SpriteAnimationComponent
   bool _hasCollided = false;
 
   Direction direction = Direction.none;
+  late IO.Socket socket;
   final double _playerSpeed = 300.0;
   final double _animationSpeed = 0.15;
   late final SpriteAnimation _runDownAnimation;
@@ -39,13 +41,21 @@ class Player extends SpriteAnimationComponent
       case Direction.right:
         if (canPlayerMoveRight()) {
           animation = _runRightAnimation;
+          socket.on('data', (dynamic posX){
+
+            double d = posX as double;
+            print(d);
+          position.x = d;
+          });
           moveRight(delta);
+          socket.emit('come', position.x);
         }
         break;
       case Direction.left:
         if (canPlayerMoveLeft()) {
           animation = _runLeftAnimation;
           moveLeft(delta);
+          socket.emit('come', (position.x));
         }
         break;
       case Direction.up:

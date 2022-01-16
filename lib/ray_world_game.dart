@@ -6,6 +6,7 @@ import 'components/world.dart';
 import 'helpers/direction.dart';
 import 'components/player.dart';
 import 'package:flame/components.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class RayWorldGame extends FlameGame with HasCollidables {
   final Player _player = Player();
@@ -27,6 +28,10 @@ class RayWorldGame extends FlameGame with HasCollidables {
 
   void onJoypadDirectionChanged(Direction direction) {
     _player.direction = direction;
+  }
+
+  void socket(IO.Socket socket) {
+    _player.socket = socket;
   }
 
   void addWorldCollision() async =>
