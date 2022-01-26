@@ -4,9 +4,9 @@ import 'package:flame/sprite.dart';
 import '../helpers/direction.dart';
 import 'world_collidable.dart';
 
-class Player extends SpriteAnimationComponent
+class Enemies extends SpriteAnimationComponent
     with HasGameRef, Hitbox, Collidable {
-  Player() : super(size: Vector2.all(50.0)) {
+  Enemies() : super(size: Vector2.all(51.0)) {
     addHitbox(HitboxRectangle());
     debugMode = true;
   }
@@ -109,7 +109,8 @@ class Player extends SpriteAnimationComponent
   Future<void> onLoad() async {
     super.onLoad();
     _loadAnimations().then((value) => animation = _standingAnimation);
-    position = gameRef.size / 2;
+    // sprite = await gameRef.loadSprite('player.png');
+    position = Vector2(1200, 1255);
   }
 
   Future<void> _loadAnimations() async {

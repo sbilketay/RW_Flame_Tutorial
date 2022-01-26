@@ -1,22 +1,33 @@
 import 'dart:ui';
 import 'package:flame/game.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import 'components/world_collidable.dart';
 import 'helpers/map_loader.dart';
 import 'components/world.dart';
 import 'helpers/direction.dart';
 import 'components/player.dart';
+import 'components/enemies.dart';
 import 'package:flame/components.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'controller/socket_controller.dart';
 
 class RayWorldGame extends FlameGame with HasCollidables {
   final Player _player = Player();
+  final Enemies _enemies = Enemies();
   final World _world = World();
+  final SocketController _socketController = Get.put(SocketController());
 
   @override
   // ignore: must_call_super
   Future<void>? onLoad() async {
+    print(_socketController.socket.value);
+    print(_socketController.socketID.value);
+    _socketController.socket.value?.on('data', (data) {
+      print(data);
+    });
     await add(_world);
     await add(_player);
+    await add(_enemies);
     addWorldCollision();
 
     _player.position = _world.size / 2;
@@ -28,10 +39,6 @@ class RayWorldGame extends FlameGame with HasCollidables {
 
   void onJoypadDirectionChanged(Direction direction) {
     _player.direction = direction;
-  }
-
-  void socket(IO.Socket socket) {
-    _player.socket = socket;
   }
 
   void addWorldCollision() async =>
