@@ -1,6 +1,9 @@
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/sprite.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import '../controller/socket_controller.dart';
 import '../helpers/direction.dart';
 import 'world_collidable.dart';
 
@@ -12,16 +15,17 @@ class Player extends SpriteAnimationComponent
   }
   Direction _collisionDirection = Direction.none;
   bool _hasCollided = false;
-
   Direction direction = Direction.none;
+
+  final SocketController _socketController = Get.put(SocketController());
 
   final double _playerSpeed = 300.0;
   final double _animationSpeed = 0.15;
-  late final SpriteAnimation _runDownAnimation;
-  late final SpriteAnimation _runUpAnimation;
-  late final SpriteAnimation _runLeftAnimation;
-  late final SpriteAnimation _runRightAnimation;
-  late final SpriteAnimation _standingAnimation;
+  late final SpriteAnimation _runDownAnimation,
+      _runUpAnimation,
+      _runLeftAnimation,
+      _runRightAnimation,
+      _standingAnimation;
 
   @override
   void update(double delta) {
@@ -30,6 +34,7 @@ class Player extends SpriteAnimationComponent
   }
 
   void movePlayer(double delta) {
+ 
     switch (direction) {
       case Direction.down:
         if (canPlayerMoveDown()) {
@@ -62,18 +67,22 @@ class Player extends SpriteAnimationComponent
   }
 
   void moveDown(double delta) {
+    _socketController.socket.value?.emit('position', position.toString());
     position.add(Vector2(0, delta * _playerSpeed));
   }
 
   void moveUp(double delta) {
+    _socketController.socket.value?.emit('position', position.toString());
     position.add(Vector2(0, -delta * _playerSpeed));
   }
 
   void moveLeft(double delta) {
+    _socketController.socket.value?.emit('position', position.toString());
     position.add(Vector2(-delta * _playerSpeed, 0));
   }
 
   void moveRight(double delta) {
+    _socketController.socket.value?.emit('position', position.toString());
     position.add(Vector2(delta * _playerSpeed, 0));
   }
 

@@ -1,8 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/sprite.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import '../helpers/direction.dart';
 import 'world_collidable.dart';
+import '../controller/socket_controller.dart';
 
 class Enemies extends SpriteAnimationComponent
     with HasGameRef, Hitbox, Collidable {
@@ -12,7 +15,7 @@ class Enemies extends SpriteAnimationComponent
   }
   Direction _collisionDirection = Direction.none;
   bool _hasCollided = false;
-
+  final SocketController _socketController = Get.put(SocketController());
   Direction direction = Direction.none;
 
   final double _playerSpeed = 300.0;
@@ -26,7 +29,6 @@ class Enemies extends SpriteAnimationComponent
   @override
   void update(double delta) {
     super.update(delta);
-    movePlayer(delta);
   }
 
   void movePlayer(double delta) {
@@ -62,6 +64,7 @@ class Enemies extends SpriteAnimationComponent
   }
 
   void moveDown(double delta) {
+
     position.add(Vector2(0, delta * _playerSpeed));
   }
 
