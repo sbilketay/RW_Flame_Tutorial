@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/sprite.dart';
@@ -29,6 +31,11 @@ class Enemies extends SpriteAnimationComponent
   @override
   void update(double delta) {
     super.update(delta);
+        _socketController.socket.value?.on('data', (pos) {
+      double x = json.decode(pos.toString())[0] as double;
+      double y = json.decode(pos.toString())[1] as double;
+      position = Vector2((x + 100), (y + 100));
+    });
   }
 
   void movePlayer(double delta) {

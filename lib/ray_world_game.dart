@@ -27,11 +27,11 @@ class RayWorldGame extends FlameGame with HasCollidables {
     await add(_player);
     await add(_enemy);
     addWorldCollision();
-    _socketController.socket.value?.on('data', (pos) {
-      double x = json.decode(pos.toString())[0] as double;
-      double y = json.decode(pos.toString())[1] as double;
-      _enemy.position = Vector2(x, y);
-    });
+    // _socketController.socket.value?.on('data', (pos) {
+    //   double x = json.decode(pos.toString())[0] as double;
+    //   double y = json.decode(pos.toString())[1] as double;
+    //   _enemy.position = Vector2(x, y);
+    // });
     _player.position = _world.size / 2;
     _enemy.position = Vector2(1300, 1300);
     camera.followComponent(
