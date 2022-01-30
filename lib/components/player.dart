@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/sprite.dart';
@@ -34,7 +36,6 @@ class Player extends SpriteAnimationComponent
   }
 
   void movePlayer(double delta) {
- 
     switch (direction) {
       case Direction.down:
         if (canPlayerMoveDown()) {
@@ -67,22 +68,31 @@ class Player extends SpriteAnimationComponent
   }
 
   void moveDown(double delta) {
-    _socketController.socket.value?.emit('position', position.toString());
+    final sendData =
+        json.encode([position.x.toString(),position.y.toString(), _socketController.socketID.value]);
+
+    _socketController.socket.value?.emit('position', sendData);
     position.add(Vector2(0, delta * _playerSpeed));
   }
 
   void moveUp(double delta) {
-    _socketController.socket.value?.emit('position', position.toString());
+    final sendData =
+        json.encode([position.x.toString(),position.y.toString(), _socketController.socketID.value]);
+    _socketController.socket.value?.emit('position', sendData);
     position.add(Vector2(0, -delta * _playerSpeed));
   }
 
   void moveLeft(double delta) {
-    _socketController.socket.value?.emit('position', position.toString());
+    final sendData =
+        json.encode([position.x.toString(),position.y.toString(), _socketController.socketID.value]);
+    _socketController.socket.value?.emit('position', sendData);
     position.add(Vector2(-delta * _playerSpeed, 0));
   }
 
   void moveRight(double delta) {
-    _socketController.socket.value?.emit('position', position.toString());
+    final sendData =
+        json.encode([position.x.toString(),position.y.toString(), _socketController.socketID.value]);
+    _socketController.socket.value?.emit('position', sendData);
     position.add(Vector2(delta * _playerSpeed, 0));
   }
 

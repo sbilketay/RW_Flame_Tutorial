@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame/sprite.dart';
@@ -28,14 +26,8 @@ class Enemies extends SpriteAnimationComponent
   late final SpriteAnimation _runRightAnimation;
   late final SpriteAnimation _standingAnimation;
 
-  @override
-  void update(double delta) {
-    super.update(delta);
-        _socketController.socket.value?.on('data', (pos) {
-      double x = json.decode(pos.toString())[0] as double;
-      double y = json.decode(pos.toString())[1] as double;
-      position = Vector2((x + 100), (y + 100));
-    });
+  void updatePos(Vector2 pos) {
+    position = pos;
   }
 
   void movePlayer(double delta) {
@@ -71,7 +63,6 @@ class Enemies extends SpriteAnimationComponent
   }
 
   void moveDown(double delta) {
-
     position.add(Vector2(0, delta * _playerSpeed));
   }
 
